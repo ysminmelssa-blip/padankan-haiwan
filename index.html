@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ms"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Jom Padankan! Haiwan dan Makanannya</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{--o:#f08a1c;--r:#e2463c;--g:#5cb85c;--ink:#2b3a67}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%}
+body{font-family:'Baloo 2','Arial Rounded MT Bold',system-ui,sans-serif;color:var(--ink);background:linear-gradient(#bfe8ff,#e8f8ff 45%,#8fd36b 45%,#5cb85c);display:grid;place-items:center;padding:10px;overflow:hidden}
+.app{position:relative;width:min(900px,100%);height:min(620px,100%);background:linear-gradient(#cdeeff 0%,#eaf9ff 50%,#9ddc72 50%,#6cc24a 100%);border:6px solid #3a8f3a;border-radius:28px;box-shadow:0 10px 30px #0003;overflow:hidden}
+section{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:14px}
+section.on{display:flex}
+.title{font-weight:800;line-height:1;color:var(--r);-webkit-text-stroke:6px #fff;paint-order:stroke fill;font-size:clamp(34px,7vw,64px);transform:rotate(-3deg);margin:0}
+.title small{display:block;color:var(--o);font-size:.8em}
+.btn{font-family:inherit;font-weight:800;font-size:clamp(22px,4vw,34px);color:#3a2300;background:linear-gradient(#ffd54a,#ffb300);border:4px solid #7a4a00;border-radius:22px;padding:6px 34px;cursor:pointer;box-shadow:0 6px 0 #9b6200;margin:8px}
+.btn:active{transform:translateY(4px);box-shadow:0 2px 0 #9b6200}
+.btn.red{background:linear-gradient(#ff7a8a,#e2463c);color:#fff;border-color:#9d1d2b;box-shadow:0 6px 0 #9d1d2b}
+.spk{position:absolute;top:10px;right:10px;width:54px;height:54px;border-radius:50%;border:4px solid #fff;background:#3b8de0;color:#fff;font-size:26px;cursor:pointer;z-index:5}
+.pets{display:flex;gap:2vw;align-items:flex-end;justify-content:center}
+.pets svg{width:clamp(90px,20vw,170px)}
+.card{background:#fffbe0;border:4px solid #ffd54a;border-radius:26px;padding:12px 22px;font-size:clamp(18px,3vw,26px);font-weight:600;max-width:90%}
+.card h2{margin:0 0 6px;background:#ffd0a0;border-radius:16px;padding:2px 18px;display:inline-block;font-size:1.1em}
+.rule{display:flex;align-items:center;justify-content:center;gap:14px;margin:4px 0}
+.rule svg{height:clamp(34px,7vw,52px)}
+.rule b{font-size:1.5em}
+#play .row{display:flex;justify-content:space-around;width:100%;gap:8px}
+#play .row>div{flex:1;display:flex;flex-direction:column;align-items:center}
+#play .row svg.an{width:clamp(80px,18vw,150px)}
+.slot{width:clamp(80px,19vw,140px);height:clamp(64px,13vw,96px);border:4px dashed #b08a3e;background:#fbf0c6cc;border-radius:16px;display:grid;place-items:center;margin-top:6px}
+.slot.ok{border-style:solid;border-color:var(--g);background:#e4ffd6}
+.slot.hot{background:#fff6a0}
+.slot svg{height:80%}
+.foods{display:flex;gap:4vw;margin-top:26px;min-height:90px}
+.food{width:clamp(84px,18vw,130px);height:clamp(66px,12vw,92px);background:#fff;border:4px solid #8cc8ff;border-radius:18px;display:grid;place-items:center;touch-action:none;cursor:grab;user-select:none}
+.food svg{height:78%;pointer-events:none}
+.food.sel{outline:5px solid #ffb300}
+.food.drag{position:fixed;z-index:50;pointer-events:none;transform:scale(1.1) rotate(-6deg);box-shadow:0 10px 20px #0004}
+.hint{font-weight:800;font-size:clamp(16px,2.6vw,22px);background:#fffc;border-radius:14px;padding:2px 14px;margin-top:8px}
+.say{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;width:100%}
+.say svg.boy{width:clamp(110px,24vw,200px)}
+.bubble{background:#fffbe0;border:4px solid #ffd54a;border-radius:30px;padding:12px 22px;max-width:420px;font-size:clamp(18px,3vw,26px);font-weight:600}
+.bubble h1{margin:0;font-size:clamp(38px,8vw,62px);color:var(--r);-webkit-text-stroke:5px #fff;paint-order:stroke fill}
+.bubble.sad{background:#f3f8ff;border-color:#9cc9f5}.bubble.sad h1{color:#2f7fd6}
+.stars{font-size:clamp(36px,8vw,60px);letter-spacing:6px}
+#win{background:linear-gradient(#fff3a8,#ffe0e8)}#bad{background:linear-gradient(#dff0ff,#f0e8ff)}
+</style></head><body>
+<main class="app">
+<svg width="0" height="0" style="position:absolute"><defs>
+<symbol id="rabbit" viewBox="0 0 100 100"><ellipse cx="35" cy="22" rx="9" ry="22" fill="#fff" stroke="#555" stroke-width="3"/><ellipse cx="65" cy="22" rx="9" ry="22" fill="#fff" stroke="#555" stroke-width="3"/><ellipse cx="35" cy="24" rx="4" ry="15" fill="#ffb6c8"/><ellipse cx="65" cy="24" rx="4" ry="15" fill="#ffb6c8"/><ellipse cx="50" cy="72" rx="30" ry="24" fill="#fff" stroke="#555" stroke-width="3"/><ellipse cx="50" cy="55" rx="28" ry="24" fill="#fff" stroke="#555" stroke-width="3"/><circle cx="40" cy="52" r="4" fill="#333"/><circle cx="60" cy="52" r="4" fill="#333"/><circle cx="31" cy="62" r="5" fill="#ffb6c8"/><circle cx="69" cy="62" r="5" fill="#ffb6c8"/><ellipse cx="50" cy="59" rx="4" ry="3" fill="#ff7a9a"/><path d="M42 65q8 7 16 0" fill="#e2463c" stroke="#555" stroke-width="2"/></symbol>
+<symbol id="cat" viewBox="0 0 100 100"><path d="M18 40L22 8L44 28zM82 40L78 8L56 28z" fill="#8f979e" stroke="#555" stroke-width="3" stroke-linejoin="round"/><ellipse cx="50" cy="74" rx="30" ry="22" fill="#9aa2a9" stroke="#555" stroke-width="3"/><ellipse cx="50" cy="52" rx="34" ry="28" fill="#a7afb6" stroke="#555" stroke-width="3"/><path d="M42 26v10M50 24v10M58 26v10" stroke="#6d757c" stroke-width="3" stroke-linecap="round"/><ellipse cx="50" cy="62" rx="16" ry="12" fill="#fff"/><circle cx="38" cy="50" r="5" fill="#333"/><circle cx="62" cy="50" r="5" fill="#333"/><circle cx="40" cy="48" r="1.6" fill="#fff"/><circle cx="64" cy="48" r="1.6" fill="#fff"/><path d="M46 58h8l-4 5z" fill="#ff7a9a"/><path d="M42 67q8 6 16 0" fill="none" stroke="#555" stroke-width="2.5"/><path d="M8 56l20 4M8 66l20-2M92 56l-20 4M92 66l-20-2" stroke="#555" stroke-width="2"/></symbol>
+<symbol id="cow" viewBox="0 0 100 100"><path d="M26 28q-8-14-2-20M74 28q8-14 2-20" stroke="#d9b36b" stroke-width="7" fill="none" stroke-linecap="round"/><ellipse cx="14" cy="42" rx="12" ry="8" fill="#fff" stroke="#555" stroke-width="3"/><ellipse cx="86" cy="42" rx="12" ry="8" fill="#fff" stroke="#555" stroke-width="3"/><ellipse cx="50" cy="75" rx="32" ry="22" fill="#fff" stroke="#555" stroke-width="3"/><circle cx="68" cy="78" r="9" fill="#333"/><ellipse cx="50" cy="48" rx="32" ry="30" fill="#fff" stroke="#555" stroke-width="3"/><path d="M30 24q10-6 18 0q-2 12-12 14q-8-4-6-14z" fill="#333"/><ellipse cx="50" cy="64" rx="19" ry="13" fill="#ffc4d0" stroke="#555" stroke-width="2"/><circle cx="43" cy="64" r="2.5" fill="#a0405a"/><circle cx="57" cy="64" r="2.5" fill="#a0405a"/><circle cx="38" cy="46" r="4.5" fill="#333"/><circle cx="64" cy="46" r="4.5" fill="#333"/></symbol>
+<symbol id="carrot" viewBox="0 0 100 60"><path d="M20 20L90 40L20 46q-8-13 0-26z" fill="#ff8a1c" stroke="#b85a00" stroke-width="3" stroke-linejoin="round"/><path d="M36 26l6 2M50 33l6 1M34 38l6 0" stroke="#c96a00" stroke-width="2"/><path d="M22 32q-12-14-20-10q6 8 18 12q-14 4-16 14q14 0 18-12z" fill="#4fb43c" stroke="#2c7a22" stroke-width="2"/></symbol>
+<symbol id="fish" viewBox="0 0 100 60"><path d="M72 30L98 10v40z" fill="#2f9ae0" stroke="#17608f" stroke-width="3" stroke-linejoin="round"/><ellipse cx="42" cy="30" rx="36" ry="22" fill="#4db4f0" stroke="#17608f" stroke-width="3"/><path d="M30 14q-4 16 0 32" stroke="#17608f" stroke-width="2.5" fill="none"/><circle cx="22" cy="24" r="5" fill="#fff" stroke="#17608f" stroke-width="2"/><circle cx="21" cy="24" r="2.5" fill="#222"/><path d="M12 36q4 4 8 2" stroke="#17608f" stroke-width="2.5" fill="none"/></symbol>
+<symbol id="grass" viewBox="0 0 100 60"><path d="M6 58L14 14L26 42L34 6L46 40L58 2L66 40L78 10L86 42L96 20L94 58z" fill="#5cc23a" stroke="#2c7a22" stroke-width="3" stroke-linejoin="round"/></symbol>
+<symbol id="boy" viewBox="0 0 100 130"><path d="M22 130q0-34 28-34t28 34z" fill="#fff" stroke="#555" stroke-width="3"/><path d="M42 96l8 14l8-14" fill="#e2463c"/><rect x="42" y="86" width="16" height="14" fill="#f6c9a0"/><ellipse cx="50" cy="52" rx="30" ry="32" fill="#f9d3ad" stroke="#555" stroke-width="3"/><path d="M18 50q-4-34 32-34q36 0 32 34q-8-18-30-18q-22 0-34 18z" fill="#6b3a1a" stroke="#4a2810" stroke-width="3"/><circle cx="38" cy="54" r="4.5" fill="#333"/><circle cx="62" cy="54" r="4.5" fill="#333"/><circle cx="30" cy="66" r="5" fill="#ffb09a"/><circle cx="70" cy="66" r="5" fill="#ffb09a"/><path d="M40 70q10 12 20 0z" fill="#c4332e" stroke="#555" stroke-width="2"/></symbol>
+</defs></svg>
+
+<!-- 1 MULA -->
+<section id="s1" class="on">
+<h1 class="title">Jom Padankan!<small>Haiwan dan<br>Makanannya</small></h1>
+<div class="pets"><svg><use href="#rabbit"/></svg><svg><use href="#cat"/></svg><svg><use href="#cow"/></svg></div>
+<button class="btn" onclick="go('s2')">▶ Mula</button>
+</section>
+
+<!-- 2 ARAHAN -->
+<section id="s2">
+<button class="spk" onclick="say('Padankan setiap haiwan dengan makanan yang betul.')" aria-label="Dengar arahan">🔊</button>
+<div class="card"><h2>Arahan Permainan</h2><br>Padankan setiap haiwan dengan makanan yang betul.
+<div class="rule"><svg viewBox="0 0 100 100"><use href="#rabbit"/></svg><b>→</b><svg viewBox="0 0 100 60"><use href="#carrot"/></svg></div>
+<div class="rule"><svg viewBox="0 0 100 100"><use href="#cat"/></svg><b>→</b><svg viewBox="0 0 100 60"><use href="#fish"/></svg></div>
+<div class="rule"><svg viewBox="0 0 100 100"><use href="#cow"/></svg><b>→</b><svg viewBox="0 0 100 60"><use href="#grass"/></svg></div></div>
+<button class="btn" onclick="startGame()">▶ Mula</button>
+</section>
+
+<!-- 3 AKTIVITI -->
+<section id="s3">
+<button class="spk" onclick="say('Seret makanan ke bawah haiwan yang betul.')" aria-label="Dengar arahan">🔊</button>
+<div class="row" id="row"></div>
+<div class="foods" id="foods"></div>
+<div class="hint">Seret makanan ke tempat yang betul 👆</div>
+</section>
+
+<!-- 4 TAHNIAH -->
+<section id="win">
+<div class="stars">⭐⭐⭐</div>
+<div class="say"><svg class="boy" viewBox="0 0 100 130"><use href="#boy"/></svg>
+<div class="bubble"><h1>Tahniah!</h1>Kamu berjaya memadankan semua haiwan dengan makanannya!</div></div>
+<button class="btn red" onclick="startGame()">▶ Main Lagi</button>
+</section>
+
+<!-- 5 CUBA LAGI -->
+<section id="bad">
+<div class="say"><svg class="boy" viewBox="0 0 100 130"><use href="#boy"/></svg>
+<div class="bubble sad"><h1>Cuba Lagi!</h1>Fikir semula dan padankan dengan makanan yang betul.</div></div>
+<button class="btn red" onclick="back()">⟳ Cuba Semula</button>
+</section>
+</main>
+
+<script>
+const A=[{k:'rabbit',f:'carrot',n:'arnab',m:'lobak'},{k:'cat',f:'fish',n:'kucing',m:'ikan'},{k:'cow',f:'grass',n:'lembu',m:'rumput'}];
+const vb={carrot:'0 0 100 60',fish:'0 0 100 60',grass:'0 0 100 60'};
+const $=id=>document.getElementById(id);
+let done=0,sel=null,prev='s1';
+function say(t){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='ms-MY';u.rate=.85;const v=speechSynthesis.getVoices().find(x=>x.lang.toLowerCase().startsWith('ms'));if(v)u.voice=v;speechSynthesis.speak(u)}catch(e){}}
+function go(id){document.querySelectorAll('section').forEach(s=>s.classList.toggle('on',s.id===id));if(id==='s2')say('Padankan setiap haiwan dengan makanan yang betul.')}
+const svg=(k,v)=>`<svg viewBox="${v||'0 0 100 100'}"><use href="#${k}"/></svg>`;
+function startGame(){done=0;sel=null;
+ $('row').innerHTML=A.map(a=>`<div>${svg(a.k).replace('<svg','<svg class="an"')}<div class="slot" data-a="${a.f}"></div></div>`).join('');
+ const order=[...A].sort(()=>Math.random()-.5);
+ $('foods').innerHTML=order.map(a=>`<div class="food" data-f="${a.f}" role="button" aria-label="${a.m}">${svg(a.f,vb[a.f])}</div>`).join('');
+ document.querySelectorAll('.slot').forEach(s=>s.onclick=()=>{if(sel)place(sel,s)});
+ document.querySelectorAll('.food').forEach(drag);
+ go('s3');say('Seret makanan ke bawah haiwan yang betul.')}
+function drag(el){
+ el.onpointerdown=e=>{e.preventDefault();const r=el.getBoundingClientRect(),dx=e.clientX-r.left,dy=e.clientY-r.top;let moved=false;
+  const w=r.width,h=r.height;
+  const mv=ev=>{if(!moved&&Math.hypot(ev.clientX-e.clientX,ev.clientY-e.clientY)>6){moved=true;el.classList.add('drag');el.style.width=w+'px';el.style.height=h+'px'}
+   if(moved){el.style.left=ev.clientX-dx+'px';el.style.top=ev.clientY-dy+'px';
+    document.querySelectorAll('.slot').forEach(s=>s.classList.remove('hot'));const t=document.elementFromPoint(ev.clientX,ev.clientY);t&&t.closest&&t.closest('.slot:not(.ok)')?.classList.add('hot')}};
+  const up=ev=>{removeEventListener('pointermove',mv);removeEventListener('pointerup',up);
+   document.querySelectorAll('.slot').forEach(s=>s.classList.remove('hot'));
+   if(!moved){document.querySelectorAll('.food').forEach(f=>f.classList.remove('sel'));sel=sel===el?null:el;if(sel)el.classList.add('sel');return}
+   el.classList.remove('drag');el.style.cssText='';
+   const t=document.elementFromPoint(ev.clientX,ev.clientY),s=t&&t.closest&&t.closest('.slot:not(.ok)');if(s)place(el,s)};
+  addEventListener('pointermove',mv);addEventListener('pointerup',up)}}
+function place(food,slot){
+ food.classList.remove('sel');sel=null;
+ if(slot.dataset.a===food.dataset.f){slot.classList.add('ok');slot.innerHTML=food.innerHTML;food.style.visibility='hidden';food.onpointerdown=null;
+  const a=A.find(x=>x.f===food.dataset.f);say('Betul! '+a.n+' makan '+a.m+'.');
+  if(++done===3)setTimeout(()=>{go('win');say('Tahniah! Kamu berjaya memadankan semua haiwan dengan makanannya!')},1400)}
+ else{go('bad');say('Cuba lagi. Fikir semula dan padankan dengan makanan yang betul.')}}
+function back(){go('s3')}
+</script>
+</body></html>
